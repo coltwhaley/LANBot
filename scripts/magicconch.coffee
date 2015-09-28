@@ -15,6 +15,15 @@
 #   Colt Whaley
 
 module.exports = (robot) ->
+
+	users = robot.brain.users
+
+	whoMessage = (msg) ->
+		for user in users
+			msg.send "test"
+			userName = user['name'].toString()
+      		msg.send "#{userName}"
+ 
 	
 	robot.hear /^\s*magic conch\W+(.*)/i, (msg) ->
 		if Math.floor(Math.random() * 300) == 2
@@ -24,6 +33,8 @@ module.exports = (robot) ->
 				msg.send "Ask the magic conch a question by sending `magic conch $question`"
 			else if msg.match[1].split(" ")[0] == "which"
 				msg.send "Neither"
+			else if msg.match[1].split(" ")[0] == "who"
+				whoMessage msg
 			else
 				switch Math.floor(Math.random() * 7)
 					when 1 then msg.send "Maybe someday"
@@ -35,3 +46,5 @@ module.exports = (robot) ->
 
 	robot.hear /^\s*magic conch\s*$/i, (msg) ->
 		msg.send "You didn't ask a question. To ask a question, send `magic conch $question`"
+
+
